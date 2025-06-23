@@ -1,0 +1,90 @@
+<section class="mt-5 py-5">
+  <div class="container">
+    <h2 class="text-white text-center mb-4 border-bottom border-light pb-3">Our Programs</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+
+      <!-- Programme statique 1 -->
+      <div class="col">
+        <div class="card h-100 text-center bg-transparent text-white border border-light shadow">
+          <div class="p-3">
+            <img src="assets/images/1.jpg" class="rounded-circle mb-3" style="width: 80px; height: 80px;" alt="Losing Weight">
+            <h5 class="card-title text-warning">LOSING WEIGHT</h5>
+            <p class="card-text">Effective training and coaching to help you burn fat and get in shape.</p>
+            <a routerLink="/programme/1" class="btn btn-outline-warning mt-2">📘 Learn More</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Programme statique 2 -->
+      <div class="col">
+        <div class="card h-100 text-center bg-transparent text-white border border-light shadow">
+          <div class="p-3">
+            <img src="assets/images/2.jpg" class="rounded-circle mb-3" style="width: 80px; height: 80px;" alt="Building Muscle">
+            <h5 class="card-title text-warning">BUILDING MUSCLE</h5>
+            <p class="card-text">Structured plans designed for hypertrophy and muscle growth.</p>
+            <a routerLink="/programme/2" class="btn btn-outline-warning mt-2">📘 Learn More</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Programme statique 3 -->
+      <div class="col">
+        <div class="card h-100 text-center bg-transparent text-white border border-light shadow">
+          <div class="p-3">
+            <img src="assets/images/3.jpg" class="rounded-circle mb-3" style="width: 80px; height: 80px;" alt="Training at Home">
+            <h5 class="card-title text-warning">TRAINING AT HOME</h5>
+            <p class="card-text">No gym? No problem. Workout programs for your living room.</p>
+            <a routerLink="/programme/3" class="btn btn-outline-warning mt-2">📘 Learn More</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Programme statique 4 -->
+      <div class="col">
+        <div class="card h-100 text-center bg-transparent text-white border border-light shadow">
+          <div class="p-3">
+            <img src="assets/images/gym plan.svg" class="rounded-circle mb-3" style="width: 80px; height: 80px; background-color: white;" alt="Gym Plan">
+            <h5 class="card-title text-warning">GYM PLAN</h5>
+            <p class="card-text">Advanced and personalized plans for gym-goers of all levels.</p>
+            <a routerLink="/programme/4" class="btn btn-outline-warning mt-2">📘 Learn More</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Section : Programmes dynamiques API -->
+<section class="py-5">
+  <div class="container">
+    <h3 class="text-white mb-4 border-bottom border-light pb-2">Available Programs</h3>
+
+    <div *ngIf="programmesAffiches.length === 0" class="text-center text-muted">
+      No programs available.
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <div *ngFor="let prog of programmesAffiches" class="col">
+        <div class="card h-100 text-center bg-dark text-white shadow border border-light">
+          <div class="p-3">
+            <img
+              [src]="'assets/images/' + prog.image"
+              class="rounded-circle mb-3"
+              style="width: 80px; height: 80px;"
+              alt="{{ prog.nom }}"
+            />
+            <h5 class="card-title text-warning">{{ prog.nom }}</h5>
+            <p class="card-text">{{ prog.description }}</p>
+            <p class="text-muted small">Category: {{ prog.categorie }}</p>
+            <a [routerLink]="['/programme', prog.id]" class="btn btn-outline-warning btn-sm mt-2">📘 Learn More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-4" *ngIf="limiteAffichage < programmes.length">
+      <button class="btn btn-warning" (click)="voirPlus()">Voir plus</button>
+    </div>
+  </div>
+</section>
