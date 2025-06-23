@@ -74,7 +74,7 @@
 
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { ProgrammeService } from 'src/app/services/programme.service';
 
 @Component({
@@ -82,7 +82,7 @@ import { ProgrammeService } from 'src/app/services/programme.service';
   templateUrl: './our-programs.component.html',
   styleUrls: ['./our-programs.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule, RouterLink],
+  imports: [CommonModule, RouterModule, RouterLink,],
 })
 export class OurProgramsComponent implements OnInit {
 
@@ -116,20 +116,23 @@ export class OurProgramsComponent implements OnInit {
   programmes: any[] = [];
   programmesAffiches: any[] = [];
   limiteAffichage = 4;
+  isAuthenticated = false;
 
-  constructor(private programmeService: ProgrammeService) {}
+  constructor(private programmeService: ProgrammeService,private router: Router) {}
 
   ngOnInit(): void {
-    this.mettreAJourProgrammesAffiches();
-    this.programmeService.getProgrammes().subscribe({
-      next: (data) => {
-        this.programmes = data;
-        this.mettreAJourProgrammesAffiches();
-      },
-      error: () => {
-        alert('Erreur de chargement des programmes');
-      },
-    });
+  this.isAuthenticated = !!localStorage.getItem('token');
+  this.mettreAJourProgrammesAffiches();
+
+  this.programmeService.getProgrammes().subscribe({
+    next: (data) => {
+      this.programmes = data;
+      this.mettreAJourProgrammesAffiches();
+    },
+    error: () => {
+      alert('Erreur de chargement des programmes');
+    },
+  });
   }
 
   mettreAJourProgrammesAffiches(): void {
@@ -141,4 +144,19 @@ export class OurProgramsComponent implements OnInit {
     this.limiteAffichage += 4;
     this.mettreAJourProgrammesAffiches();
   }
+  voirMoins(): void {
+    this.limiteAffichage = 4;
+    this.mettreAJourProgrammesAffiches();
+  }
+
+  handleVoirPlus(): void {
+  if (!this.isAuthenticated) {
+    alert("Veuillez vous connecter pour voir tous les programmes.");
+    this.router.navigate(['/login']);
+    return;
+  }
+
+  this.voirPlus();
+}
+
 }

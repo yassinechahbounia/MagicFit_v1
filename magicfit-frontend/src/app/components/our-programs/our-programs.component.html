@@ -24,8 +24,24 @@
       </div>
     </div>
 
-    <div class="text-center mt-4" *ngIf="programmesAffiches.length < (staticPrograms.length + programmes.length)">
-      <button class="btn btn-warning" (click)="voirPlus()">Voir plus</button>
+    <!-- Boutons de contrôle -->
+    <div class="text-center mt-4">
+      <button
+        class="btn btn-warning me-2"
+        *ngIf="programmesAffiches.length < (staticPrograms.length + programmes.length)"
+    (click)="handleVoirPlus()"
+  >
+        Voir plus
+      </button>
+
+
+      <button
+        class="btn btn-secondary"
+        *ngIf="programmesAffiches.length > 4"
+    (click)="voirMoins()"
+  >
+    🔙 Voir moins
+  </button>
     </div>
   </div>
 </section>
