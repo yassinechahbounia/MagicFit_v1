@@ -11,24 +11,65 @@ import { ProgrammeService } from 'src/app/services/programme.service';
 })
 export class ProgrammeDetailComponent implements OnInit {
   programme: any;
+  router: any;
 
   constructor(
     private route: ActivatedRoute,
     private programmeService: ProgrammeService
   ) {}
+staticPrograms = [
+  {
+    id: 1,
+    nom: 'LOSING WEIGHT',
+    description: 'Effective training and coaching to help you burn fat and get in shape.',
+    categorie: 'Cardio',
+    image: '1.jpg',
+    exercices: []
+  },
+  {
+    id: 2,
+    nom: 'BUILDING MUSCLE',
+    description: 'Structured plans designed for hypertrophy and muscle growth.',
+    categorie: 'Musculation',
+    image: '2.jpg',
+    exercices: []
+  },
+  {
+    id: 3,
+    nom: 'TRAINING AT HOME',
+    description: 'No gym? No problem. Workout programs for your living room.',
+    categorie: 'Home',
+    image: '3.jpg',
+    exercices: []
+  },
+  {
+    id: 4,
+    nom: 'GYM PLAN',
+    description: 'Advanced and personalized plans for gym-goers of all levels.',
+    categorie: 'Gym',
+    image: 'gym plan.svg',
+    exercices: []
+  }
+];
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.programmeService.getProgrammeById(+id).subscribe({
-        next: (data) => {
-          this.programme = data;
-          console.log('Programme chargé :', this.programme);
-        },
-        error: (err) => {
-          console.error('Erreur chargement programme', err);
-        }
-      });
-    }
+  const id = +this.route.snapshot.paramMap.get('id')!;
+
+  const staticProgram = this.staticPrograms.find(p => p.id === id);
+  if (staticProgram) {
+    this.programme = staticProgram;
+    return;
   }
+
+  // Sinon, c'est un programme depuis l'API
+  this.programmeService.getProgrammeById(id).subscribe({
+    next: (data) => {
+      this.programme = data;
+    },
+    error: () => {
+      this.router.navigate(['/not-found']);
+    }
+  });
 }
+  }
+
