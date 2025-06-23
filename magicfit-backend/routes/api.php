@@ -7,6 +7,7 @@ use App\Http\Controllers\ProgrammeController;
 use App\Http\Controllers\ExerciceController;
 use App\Http\Controllers\SuiviController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReservationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,15 +47,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     // ✅ Exercices
-        Route::apiResource('exercices', ExerciceController::class)->only([
-        'index', 'store', 'update', 'destroy'
+    Route::apiResource('exercices', ExerciceController::class)->only([
+        'index',
+        'store',
+        'update',
+        'destroy'
     ]);
     Route::get('/exercices/{id}', [ExerciceController::class, 'show']);
 
 
     // ✅ Suivis
     Route::apiResource('suivis', SuiviController::class)->only([
-        'index', 'store', 'destroy'
+        'index',
+        'store',
+        'destroy'
     ]);
 
     Route::middleware('auth:sanctum')->get('/suivis', [SuiviController::class, 'index']);
@@ -77,6 +83,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/users', [UserController::class, 'store']);
         Route::put('/users/{id}', [UserController::class, 'update']);
         Route::delete('/users/{id}', [UserController::class, 'destroy']);
-        
+
+
+        //** Réservation Facile **//
+        Route::middleware('auth:sanctum')->post('/reservations', [ReservationController::class, 'store']);
+        Route::post('/reservations', [ReservationController::class, 'store']);
+        Route::get('/reservations', [ReservationController::class, 'index']);
     });
 });

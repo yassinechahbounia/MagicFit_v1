@@ -31,8 +31,9 @@ staticPrograms = [
     nom: 'BUILDING MUSCLE',
     description: 'Structured plans designed for hypertrophy and muscle growth.',
     categorie: 'Musculation',
+    objectif: 'Prise de masse',
     image: '2.jpg',
-    exercices: []
+    exercices: [{ nom: 'bench-press', gif: 'bench-press.gif' }]
   },
   {
     id: 3,
@@ -40,7 +41,8 @@ staticPrograms = [
     description: 'No gym? No problem. Workout programs for your living room.',
     categorie: 'Home',
     image: '3.jpg',
-    exercices: []
+    exercices: [{ nom: 'Pushups', gif: 'Pushups.gif' }]
+
   },
   {
     id: 4,
@@ -72,4 +74,3 @@ staticPrograms = [
   });
 }
   }
-

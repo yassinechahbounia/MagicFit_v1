@@ -13,6 +13,6 @@ export interface Programme {
   categorie: string;
   objectifs?: string;
   action?: string;
-  exercices: Exercice[];   // Liste d'exercices enrichis
+  exercices?: { nom: string; gif?: string }[];   // Liste d'exercices enrichis
   nutrition: string[];     // Liste de conseils nutritionnels
 }

@@ -35,6 +35,7 @@ import { NgModule } from '@angular/core';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { ReservationFacileComponent } from './components/reservation-facile/reservation-facile.component';
 
 NgModule({
   imports: [
@@ -110,6 +111,11 @@ export const routes: Routes = [
   { path: 'bmi-calculator', component: BmiCalculatorComponent },
   { path: 'macronutrient-calculator', component: MacronutrientCalculatorComponent },
   { path: 'goal-setting', component: GoalSettingToolComponent },
+  
+  //Réservation Facile
+  { path: '', component: HomeComponent },
+  { path: 'reservation', component: ReservationFacileComponent }, 
+
   // Redirection pour routes inconnues
   {
     path: '**',

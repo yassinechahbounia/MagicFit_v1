@@ -1,0 +1,21 @@
+<br>
+<div class="reservation-container">
+  <h2>📅 Réservation Facile</h2>
+  <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+    <input formControlName="nom" placeholder="Votre nom" />
+    <input formControlName="email" placeholder="Votre email" type="email" />
+    
+    <select formControlName="type">
+      <option value="collectif">Cours Collectif</option>
+      <option value="prive">Coaching Privé</option>
+    </select>
+
+    <input type="date" formControlName="date" />
+    <input type="time" formControlName="heure" />
+
+    <button type="submit" [disabled]="!reservationForm.valid">Réserver</button>
+  </form>
+
+  <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+</div>
