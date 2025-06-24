@@ -27,18 +27,27 @@ class ReservationController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'nom' => 'required|string|max:255',
-            'email' => 'required|email',
-            'type' => 'required|in:collectif,prive',
-            'date' => 'required|date',
-            'heure' => 'required'
-        ]);
+{
+    $validated = $request->validate([
+        'nom' => 'required|string',
+        'email' => 'required|email',
+        'type' => 'required|in:Cours Collectif,Coaching Privé',
+        'date' => 'required|date',
+        'heure' => 'required'
+    ]);
 
-        $reservation = Reservation::create($validated);
-        return response()->json($reservation, 201);
-    }
+    // Convertir les types reçus du front en valeurs ENUM compatibles
+    $mappedType = [
+        'Cours Collectif' => 'collectif',
+        'Coaching Privé' => 'prive'
+    ];
+
+    $validated['type'] = $mappedType[$validated['type']] ?? 'collectif';
+
+    $reservation = \App\Models\Reservation::create($validated);
+
+    return response()->json(['message' => 'Réservation créée avec succès'], 201);
+}
 
     /**
      * Display the specified resource.

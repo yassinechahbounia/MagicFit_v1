@@ -24,19 +24,17 @@ export class LoginComponent {
     });
   }
 
-  onSubmit() {
-    if (this.loginForm.invalid) return;
-      const { email, password } = this.loginForm.value;
-      this.auth.login(email, password).subscribe({
+onSubmit() {
+  if (this.loginForm.invalid) return;
 
-    // this.auth.login(this.loginForm.value).subscribe({
-      next: (res: any) => {
-        localStorage.setItem('token', res.token);
-        localStorage.setItem('user', JSON.stringify(res.user));
-        // Rediriger selon rôle
-        this.router.navigate([`/${res.user.role}`]);
-      },
-      error: () => alert("Email ou mot de passe incorrect")
-    });
-  }
+  this.auth.login(this.loginForm.value).subscribe({
+    next: (res: any) => {
+      localStorage.setItem('token', res.token);
+      localStorage.setItem('user', JSON.stringify(res.user));
+      this.router.navigate([`/${res.user.role}`]);
+    },
+    error: () => alert("Email ou mot de passe incorrect")
+  });
+}
+
 }

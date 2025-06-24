@@ -1,47 +1,55 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { RouterLink, RouterModule } from '@angular/router';
-import { ReservationService } from 'src/app/services/reservation.service';
+import { CommonModule } from '@angular/common';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-reservation-facile',
+  standalone: true,
   templateUrl: './reservation-facile.component.html',
   styleUrls: ['./reservation-facile.component.scss'],
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
 })
-export class ReservationFacileComponent {
+export class ReservationFacileComponent implements OnInit {
   reservationForm: FormGroup;
-  submitted = false;
   successMessage = '';
   errorMessage = '';
-
-  constructor(private fb: FormBuilder, private http: HttpClient,private reservationService: ReservationService) {
+  reservation: any;
+  constructor(private fb: FormBuilder, private http: HttpClient,private apiService:ApiService) {
     this.reservationForm = this.fb.group({
       nom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      type: ['collectif', Validators.required],
+      type: ['Cours Collectif', Validators.required],
       date: ['', Validators.required],
       heure: ['', Validators.required]
     });
+  }
+  
+  ngOnInit(): void {
   }
 
   onSubmit(): void {
     if (this.reservationForm.invalid) return;
 
-    this.reservationService.reserver(this.reservationForm.value).subscribe({
-      next: () => {
-        this.successMessage = 'Réservation effectuée avec succès ✅';
+    const data = this.reservationForm.value;
+    const headers={
+  'Authorization':`Bearer${localStorage.getItem('token')}`
+}
+console.log(`check token ${headers}`)
+    this.http.post('http://localhost:8000/api/reservations', data,{  headers: this.apiService.getHeaders()}).subscribe({
+  
+    next: () => {
+        this.successMessage = 'Réservation envoyée avec succès ✅';
         this.errorMessage = '';
-        this.reservationForm.reset();
+        this.reservationForm.reset({ type: 'Cours Collectif' });
       },
-      error: (err) => {
-        console.error(err);
-        this.errorMessage = 'Une erreur est survenue ❌';
+      error: () => {
         this.successMessage = '';
+        this.errorMessage = 'Une erreur est survenue ❌';
       }
     });
   }
 }
+
+

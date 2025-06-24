@@ -126,7 +126,7 @@ supprimerUtilisateur(id: number): Observable<any> {
   }
 
   // ✅ HEADERS
-  private getHeaders(): any {
+  public getHeaders(): any {
     return {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
       Accept: 'application/json'

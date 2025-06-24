@@ -78,6 +78,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/programmes/{id}', [ProgrammeController::class, 'destroy']);
 
         // 🔹 Utilisateurs
+        Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+            return $request->user();
+        });
         Route::get('/users', [UserController::class, 'index']);
         Route::get('/users/{id}', [UserController::class, 'show']);
         Route::post('/users', [UserController::class, 'store']);
@@ -86,6 +89,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
         //** Réservation Facile **//
+        
         Route::middleware('auth:sanctum')->post('/reservations', [ReservationController::class, 'store']);
         Route::post('/reservations', [ReservationController::class, 'store']);
         Route::get('/reservations', [ReservationController::class, 'index']);

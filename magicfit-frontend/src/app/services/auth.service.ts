@@ -18,7 +18,7 @@ export class AuthService {
   //   return this.http.post(`${this.apiUrl}/login`, credentials);
   // }
 
-login(credentials: { email: string; password: string; }, password: any): Observable<any> {
+login(credentials: { email: string; password: string }): Observable<any> {
   return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
     tap((response: any) => {
       if (response.token) {
@@ -27,6 +27,8 @@ login(credentials: { email: string; password: string; }, password: any): Observa
     })
   );
 }
+
+
 
   // register(data: { name: string, email: string, password: string }): Observable<any> {
   //   return this.http.post(`${this.apiUrl}/register`, data);
