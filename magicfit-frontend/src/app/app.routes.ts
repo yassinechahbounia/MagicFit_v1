@@ -36,6 +36,7 @@ import { NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ReservationFacileComponent } from './components/reservation-facile/reservation-facile.component';
+import { AuthGuard } from 'auth.guard';
 
 NgModule({
   imports: [
@@ -114,7 +115,8 @@ export const routes: Routes = [
   
   //Réservation Facile
   { path: '', component: HomeComponent },
-  { path: 'reservation', component: ReservationFacileComponent }, 
+  { path: 'reservation', component: ReservationFacileComponent, canActivate: [AuthGuard] },
+
 
   // Redirection pour routes inconnues
   {

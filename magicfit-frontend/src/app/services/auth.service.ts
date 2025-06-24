@@ -18,8 +18,14 @@ export class AuthService {
   //   return this.http.post(`${this.apiUrl}/login`, credentials);
   // }
 
-login(email: string, password: string) {
-  return this.http.post(`${this.apiUrl}/login`, { email, password });
+login(credentials: { email: string; password: string; }, password: any): Observable<any> {
+  return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
+    tap((response: any) => {
+      if (response.token) {
+        localStorage.setItem('token', response.token);
+      }
+    })
+  );
 }
 
   // register(data: { name: string, email: string, password: string }): Observable<any> {
@@ -47,4 +53,9 @@ login(email: string, password: string) {
     localStorage.removeItem('user');
     return of(true); // maintenant ça retourne un Observable
   }
+
+  isAuthenticated(): boolean {
+  const token = localStorage.getItem('token');
+  return !!token; // true si token présent
+}
 }

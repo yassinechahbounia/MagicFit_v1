@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink, RouterModule } from '@angular/router';
+import { ReservationService } from 'src/app/services/reservation.service';
 
 @Component({
   selector: 'app-reservation-facile',
@@ -17,7 +18,7 @@ export class ReservationFacileComponent {
   successMessage = '';
   errorMessage = '';
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
+  constructor(private fb: FormBuilder, private http: HttpClient,private reservationService: ReservationService) {
     this.reservationForm = this.fb.group({
       nom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -27,13 +28,20 @@ export class ReservationFacileComponent {
     });
   }
 
-  onSubmit() {
-    this.submitted = true;
-    if (this.reservationForm.valid) {
-      this.http.post('http://localhost:8000/api/reservations', this.reservationForm.value).subscribe({
-        next: () => this.successMessage = "✅ Réservation envoyée avec succès !",
-        error: () => this.errorMessage = "❌ Une erreur est survenue."
-      });
-    }
+  onSubmit(): void {
+    if (this.reservationForm.invalid) return;
+
+    this.reservationService.reserver(this.reservationForm.value).subscribe({
+      next: () => {
+        this.successMessage = 'Réservation effectuée avec succès ✅';
+        this.errorMessage = '';
+        this.reservationForm.reset();
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMessage = 'Une erreur est survenue ❌';
+        this.successMessage = '';
+      }
+    });
   }
 }
