@@ -23,7 +23,11 @@ export class ReservationFacileComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       type: ['Cours Collectif', Validators.required],
       date: ['', Validators.required],
-      heure: ['', Validators.required]
+      heure: ['', Validators.required],
+      //***************************** */
+      // created_at: ['', Validators],
+      // updated_at: ['', Validators],
+      //************************************ */
     });
   }
   

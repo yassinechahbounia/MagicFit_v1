@@ -3,56 +3,37 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\MailMessage;
+use App\Models\Reservation;
 
 class ReservationConfirmee extends Notification
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     */
-    public function __construct()
+    public $reservation;
+
+    public function __construct(Reservation $reservation)
     {
-        //
+        $this->reservation = $reservation;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
-     */
-    public function via(object $notifiable): array
+    public function via($notifiable)
     {
         return ['mail'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     */
     public function toMail($notifiable)
-{
-    return (new MailMessage)
-        ->subject('Confirmation de votre réservation')
-        ->greeting('Bonjour ' . $notifiable->nom)
-        ->line('Votre réservation a bien été enregistrée.')
-        ->line('Type : ' . $notifiable->type)
-        ->line('Date : ' . $notifiable->date)
-        ->line('Heure : ' . $notifiable->heure)
-        ->line('Merci pour votre confiance !');
-}
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(object $notifiable): array
     {
-        return [
-            //
-        ];
+        return (new MailMessage)
+            ->subject('✅ Réservation Confirmée')
+            ->greeting('Bonjour ' . $this->reservation->nom . ' !')
+            ->line('Votre réservation a bien été prise en compte !')
+            // ->line('🧘 Type : ' . ucfirst($this->reservation->type))
+            ->line('📅 Date : ' . $this->reservation->date)
+            ->line('🕒 Heure : ' . $this->reservation->heure)
+            ->line("📌 Type : " . $this->reservation->type)
+            ->line('Nous vous contacterons bientôt pour la confirmation finale.')
+            ->salutation('Sportivement, l\'équipe MagicFit');
     }
 }
