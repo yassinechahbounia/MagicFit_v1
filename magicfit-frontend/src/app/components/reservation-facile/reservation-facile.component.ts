@@ -3,13 +3,14 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } 
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ApiService } from 'src/app/services/api.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-reservation-facile',
   standalone: true,
   templateUrl: './reservation-facile.component.html',
   styleUrls: ['./reservation-facile.component.scss'],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
 })
 export class ReservationFacileComponent implements OnInit {
   reservationForm: FormGroup;
@@ -50,6 +51,19 @@ console.log(`check token ${headers}`)
       }
     });
   }
+
+  isAdmin(): boolean {
+  const user = localStorage.getItem('user');
+  if (!user) return false;
+
+  try {
+    const parsed = JSON.parse(user);
+    return parsed.role === 'admin';
+  } catch {
+    return false;
+  }
+}
+
 }
 
 
