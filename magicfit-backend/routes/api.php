@@ -22,12 +22,11 @@ Route::post('/login', [AuthController::class, 'login']);
 // ✅ Routes protégées avec Sanctum
 Route::middleware(['auth:sanctum'])->group(function () {
 
-    // Déconnexion + profil
+    // 🔐 Déconnexion + profil
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
 
-    // ✅ Programmes dynamiques selon rôle
-    Route::middleware('auth:sanctum')->get('/programmes', [ProgrammeController::class, 'index']);
+    // ✅ Programmes dynamiques selon rôle connecté
     Route::get('/programmes', function (Request $request) {
         $user = $request->user();
 
@@ -46,52 +45,44 @@ Route::middleware(['auth:sanctum'])->group(function () {
         };
     });
 
-    // ✅ Exercices
+    // ✅ Exercices (CRUD sauf show)
     Route::apiResource('exercices', ExerciceController::class)->only([
-        'index',
-        'store',
-        'update',
-        'destroy'
+        'index', 'store', 'update', 'destroy'
     ]);
     Route::get('/exercices/{id}', [ExerciceController::class, 'show']);
 
-
-    // ✅ Suivis
+    // ✅ Suivis (index, store, destroy)
     Route::apiResource('suivis', SuiviController::class)->only([
-        'index',
-        'store',
-        'destroy'
+        'index', 'store', 'destroy'
     ]);
 
-    Route::middleware('auth:sanctum')->get('/suivis', [SuiviController::class, 'index']);
-
+    // ✅ Réservations (utilisateurs connectés)
+    Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/reservations', [ReservationController::class, 'index']);
+    Route::post('/reservations', [ReservationController::class, 'store']);
+    Route::put('/reservations/{id}', [ReservationController::class, 'update']);
+    Route::delete('/reservations/{id}', [ReservationController::class, 'destroy']);
+});
 
     // ✅ Routes réservées aux coachs et admins
     Route::middleware('coach-or-admin')->group(function () {
 
         // 🔹 Programmes complets
-        Route::get('/programmes', [ProgrammeController::class, 'index']);
-        Route::get('/programmes/{id}', [ProgrammeController::class, 'show']);
         Route::get('/programmes/all', [ProgrammeController::class, 'index']);
+        Route::get('/programmes/{id}', [ProgrammeController::class, 'show']);
         Route::post('/programmes', [ProgrammeController::class, 'store']);
         Route::put('/programmes/{id}', [ProgrammeController::class, 'update']);
         Route::delete('/programmes/{id}', [ProgrammeController::class, 'destroy']);
 
         // 🔹 Utilisateurs
-        Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-            return $request->user();
-        });
         Route::get('/users', [UserController::class, 'index']);
         Route::get('/users/{id}', [UserController::class, 'show']);
         Route::post('/users', [UserController::class, 'store']);
         Route::put('/users/{id}', [UserController::class, 'update']);
         Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
-
-        //** Réservation Facile **//
-        
-        Route::middleware('auth:sanctum')->post('/reservations', [ReservationController::class, 'store']);
-        Route::post('/reservations', [ReservationController::class, 'store']);
-        Route::get('/reservations', [ReservationController::class, 'index']);
+        // 🔹 Admin : gestion réservations (admin page)
+        Route::get('/admin/reservations', [ReservationController::class, 'adminList']);
+        Route::put('/admin/reservations/{id}', [ReservationController::class, 'update']);
     });
 });
