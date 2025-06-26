@@ -8,6 +8,7 @@ use App\Http\Controllers\ExerciceController;
 use App\Http\Controllers\SuiviController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\CoachVirtuelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,22 +48,27 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // ✅ Exercices (CRUD sauf show)
     Route::apiResource('exercices', ExerciceController::class)->only([
-        'index', 'store', 'update', 'destroy'
+        'index',
+        'store',
+        'update',
+        'destroy'
     ]);
     Route::get('/exercices/{id}', [ExerciceController::class, 'show']);
 
     // ✅ Suivis (index, store, destroy)
     Route::apiResource('suivis', SuiviController::class)->only([
-        'index', 'store', 'destroy'
+        'index',
+        'store',
+        'destroy'
     ]);
 
     // ✅ Réservations (utilisateurs connectés)
     Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/reservations', [ReservationController::class, 'index']);
-    Route::post('/reservations', [ReservationController::class, 'store']);
-    Route::put('/reservations/{id}', [ReservationController::class, 'update']);
-    Route::delete('/reservations/{id}', [ReservationController::class, 'destroy']);
-});
+        Route::get('/reservations', [ReservationController::class, 'index']);
+        Route::post('/reservations', [ReservationController::class, 'store']);
+        Route::put('/reservations/{id}', [ReservationController::class, 'update']);
+        Route::delete('/reservations/{id}', [ReservationController::class, 'destroy']);
+    });
 
     // ✅ Routes réservées aux coachs et admins
     Route::middleware('coach-or-admin')->group(function () {
@@ -85,4 +91,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/admin/reservations', [ReservationController::class, 'adminList']);
         Route::put('/admin/reservations/{id}', [ReservationController::class, 'update']);
     });
+
+    // Coach Virtuel
+    Route::middleware('auth:sanctum')->post('/coach-virtuel', [CoachVirtuelController::class, 'handle']);
+
+    // Route::post('/coach-virtuel', [CoachVirtuelController::class, 'handle']);
 });

@@ -38,6 +38,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ReservationFacileComponent } from './components/reservation-facile/reservation-facile.component';
 import { AuthGuard } from 'auth.guard';
 import { AdminReservationsComponent } from './pages/admin-reservations.component';
+import { CoachVirtuelComponent } from './components/coach-virtuel/coach-virtuel.component';
 
 NgModule({
   imports: [
@@ -121,6 +122,9 @@ export const routes: Routes = [
   { path: 'admin/reservations',component: AdminReservationsComponent,
   canActivate: [AuthGuard],
 },
+
+// Coach IA (DeepSeek)
+{ path: 'coach-virtuel', component: CoachVirtuelComponent },
 
 
   // Redirection pour routes inconnues
