@@ -70,6 +70,7 @@
 //     }
 // }
 
+// ******************
 namespace App\Http\Controllers;
 
 use App\Models\Programme;
@@ -112,6 +113,7 @@ class ProgrammeController extends Controller
 
         return response()->json($programme, 201);
     }
+    
 
     // Modifier un programme
     public function update(Request $request, $id)
@@ -131,3 +133,4 @@ class ProgrammeController extends Controller
         return response()->json(['message' => 'Programme supprimé']);
     }
 }
+ 

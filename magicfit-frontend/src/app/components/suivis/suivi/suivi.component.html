@@ -5,8 +5,11 @@
   <form [formGroup]="suiviForm" (ngSubmit)="ajouterSuivi()" class="bg-dark p-4 rounded shadow mb-4">
     <div class="row g-3">
       <div class="col-md-3">
-        <label for="utilisateur" class="form-label">Nom ou Email Utilisateur</label>
-        <input formControlName="utilisateur" type="text" class="form-control" id="utilisateur" placeholder="Nom ou Email" required>
+        <label for="user_id" class="form-label">Sélectionner un utilisateur</label>
+        <select formControlName="user_id" class="form-control" id="user_id" required>
+          <option value="" disabled selected>Choisir...</option>
+          <option *ngFor="let u of utilisateurs" [value]="u.id">{{ u.name }} ({{ u.email }})</option>
+        </select>
       </div>
       <div class="col-md-3">
         <label for="date" class="form-label">Date</label>
@@ -33,27 +36,29 @@
   <!-- 🔍 Filtre utilisateur -->
   <div class="mb-3">
     <label class="form-label">Filtrer par utilisateur</label>
-    <input [(ngModel)]="filtreUtilisateur" class="form-control" placeholder="Entrer nom ou email utilisateur">
+    <input [(ngModel)]="filtreUtilisateur" class="form-control" placeholder="Entrer ID utilisateur">
   </div>
 
   <!-- 🧾 Tableau des suivis -->
   <table class="table table-striped text-white">
     <thead>
       <tr>
-        <th>User_id</th>
+        <th>Utilisateur</th>
         <th>Date</th>
         <th>Poids</th>
         <th>Répétitions</th>
         <th>Commentaire</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let suivi of getSuivisFiltres()">
-        <td>{{ suivi.user?.name }}</td>
+        <td>{{ suivi.user?.name || suivi.user_id }}</td>
         <td>{{ suivi.date }}</td>
         <td>{{ suivi.poids }}</td>
         <td>{{ suivi.repetitions }}</td>
         <td>{{ suivi.commentaire }}</td>
+        <td><button class="btn btn-sm btn-danger" (click)="supprimerSuivi(suivi.id)">Supprimer</button></td>
       </tr>
     </tbody>
   </table>

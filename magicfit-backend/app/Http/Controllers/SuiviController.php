@@ -25,17 +25,18 @@ class SuiviController extends Controller
         'commentaire' => 'nullable|string'
     ]);
 
-    // Trouver l'utilisateur par nom ou email
-    $user = User::where('name', $validated['utilisateur'])
-                ->orWhere('email', $validated['utilisateur'])
-                ->first();
+    // Trouver l'utilisateur par nom ou email*************
+    // $user = User::where('name', $validated['utilisateur'])
+    //             ->orWhere('email', $validated['utilisateur'])
+    //             ->first();
+    
 
     if (!$user) {
         return response()->json(['message' => 'Utilisateur introuvable'], 404);
     }
 
     $suivi = Suivi::create([
-        'user_id' => $user->id,
+        'user_id' => $validated['user_id'],
         'date' => $validated['date'],
         'poids' => $validated['poids'],
         'repetitions' => $validated['repetitions'],

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/shared/footer/footer.component.scss"],
+  "sourcesContent": ["footer {\r\n  background: #111;\r\n  color: #ccc;\r\n  a:hover {\r\n    color: #f15a29;\r\n  }\r\n}\r\n"],
+  "mappings": ";AAAA;AACE,cAAA;AACA,SAAA;;AACA,OAAA,CAAA;AACE,SAAA;;",
+  "names": []
+}

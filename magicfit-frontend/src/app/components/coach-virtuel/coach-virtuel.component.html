@@ -1,12 +1,13 @@
 <div class="container py-4 messenger-container">
   <div class="chat-wrapper bg-dark text-white p-4 rounded shadow-lg">
+
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2 class="mb-0">🤖 Coach Virtuel IA</h2>
       <button class="btn btn-outline-danger btn-sm" (click)="viderChat()">🗑 Vider le chat</button>
     </div>
 
-    <!-- Chat messages -->
+    <!-- Messages -->
     <div class="chat-box mb-4">
       <div *ngFor="let msg of historique; let i = index" class="message-row" [ngClass]="msg.role">
         <div class="message-bubble">
@@ -21,17 +22,8 @@
 
     <!-- Input -->
     <div class="input-group mb-3">
-      <textarea
-        [(ngModel)]="question"
-        rows="2"
-        class="form-control"
-        placeholder="Écris ta question ici..."
-      ></textarea>
-      <button
-        class="btn btn-success"
-        (click)="poserQuestion()"
-        [disabled]="loading || !question.trim()"
-      >
+      <textarea [(ngModel)]="question" rows="2" class="form-control" placeholder="Pose ta question..."></textarea>
+      <button class="btn btn-success" (click)="poserQuestion()" [disabled]="loading || !question.trim()">
         <span *ngIf="!loading">📤</span>
         <span *ngIf="loading">⏳</span>
       </button>
@@ -46,8 +38,12 @@
     <div *ngIf="error" class="alert alert-danger mt-3">
       <strong>Erreur :</strong> {{ error }}
     </div>
+
   </div>
-  <style scoped>
+</div>
+
+<!-- Styles -->
+<style scoped>
   .messenger-container {
     max-width: 600px;
     margin: auto;

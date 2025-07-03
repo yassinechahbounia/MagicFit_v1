@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/components/hero/hero.component.scss"],
+  "sourcesContent": [".hero {\r\n      text-align: center;\r\n      padding: 100px 20px 60px;\r\n    }\r\n\r\n    .hero h1 {\r\n      font-size: 3rem;\r\n      font-weight: bold;\r\n    }\r\n\r\n    .hero h1 span {\r\n      color: #FF5A2C;\r\n    }\r\n\r\n    .hero p {\r\n      max-width: 600px;\r\n      margin: 20px auto;\r\n      font-size: 1.1rem;\r\n      color: #ccc;\r\n    }\r\n\r\n      .btn-start {\r\n      background-color: #FF3C2F;\r\n      border: none;\r\n      padding: 12px 30px;\r\n      font-weight: bold;\r\n      border-radius: 50px;\r\n    }\r\n\r\n    .btn-explore {\r\n      background-color: transparent;\r\n      border: 2px solid #FF3C2F;\r\n      padding: 12px 30px;\r\n      color: white;\r\n      font-weight: bold;\r\n      border-radius: 50px;\r\n      margin-left: 15px;\r\n    }"],
+  "mappings": ";AAAA,CAAA;AACM,cAAA;AACA,WAAA,MAAA,KAAA;;AAGF,CALJ,KAKI;AACE,aAAA;AACA,eAAA;;AAGF,CAVJ,KAUI,GAAA;AACE,SAAA;;AAGF,CAdJ,KAcI;AACE,aAAA;AACA,UAAA,KAAA;AACA,aAAA;AACA,SAAA;;AAGA,CAAA;AACA,oBAAA;AACA,UAAA;AACA,WAAA,KAAA;AACA,eAAA;AACA,iBAAA;;AAGF,CAAA;AACE,oBAAA;AACA,UAAA,IAAA,MAAA;AACA,WAAA,KAAA;AACA,SAAA;AACA,eAAA;AACA,iBAAA;AACA,eAAA;;",
+  "names": []
+}

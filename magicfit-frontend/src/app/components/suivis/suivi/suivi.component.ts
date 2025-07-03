@@ -34,7 +34,7 @@ export class SuiviComponent implements OnInit {
     { data: [], label: 'Répétitions' }
   ]
 };
-utilisateurs: any;
+  utilisateurs: any[] = [];
   http: any;
   apiUrl: any;
 
@@ -50,7 +50,11 @@ utilisateurs: any;
   commentaire: ['']
 });
 
-    
+  this.http.get('http://127.0.0.1:8000/api/users').subscribe({
+  next: (res: any) => this.utilisateurs = res,
+  error: () => alert('Erreur chargement utilisateurs')
+});
+  
     this.chargerSuivis();
   }
 

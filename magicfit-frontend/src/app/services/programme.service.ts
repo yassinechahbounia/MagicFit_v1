@@ -21,6 +21,7 @@ export class ProgrammeService {
   // 🔹 Lister tous les programmes
   getProgrammes(): Observable<any> {
     return this.http.get(this.apiUrl, { headers: this.getHeaders() });
+    // return this.http.get<Programme[]>('http://localhost:8000/api/programmes');
   }
 
   // 🔹 Récupérer un programme par ID

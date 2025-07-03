@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpHeaders, } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-coach-virtuel',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule,],
   templateUrl: './coach-virtuel.component.html',
   styleUrls: ['./coach-virtuel.component.scss'],
 })
@@ -21,20 +22,29 @@ export class CoachVirtuelComponent {
 
   poserQuestion() {
     const token = localStorage.getItem('token');
+
+    if (!token) {
+      this.error = 'Utilisateur non authentifié.';
+      return;
+    }
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      'Authorization': `Bearer ${token}`,
     });
 
     this.loading = true;
     this.error = '';
     this.reponse = '';
 
-    // Envoi de la question + historique au backend
-    this.http.post<any>('http://localhost:8000/api/coach-virtuel', {
-      question: this.question,
-      historique: this.historique,
-    }, { headers }).subscribe({
+    this.http.post<any>(
+      'http://localhost:8000/api/coach-virtuel',
+      {
+        question: this.question,
+        historique: this.historique || [],
+      },
+      { headers }
+    ).subscribe({
       next: (res) => {
         const reponseIA = res.reponse || 'Pas de réponse reçue.';
         this.historique.push({ role: 'user', content: this.question });
@@ -44,7 +54,11 @@ export class CoachVirtuelComponent {
         this.loading = false;
       },
       error: (err) => {
-        this.error = err?.error?.message || 'Erreur inconnue';
+        if (err.status === 401) {
+          this.error = 'Erreur 401 : Utilisateur non authentifié.';
+        } else {
+          this.error = err?.error?.message || 'Erreur inconnue';
+        }
         this.loading = false;
       }
     });
@@ -61,10 +75,7 @@ export class CoachVirtuelComponent {
   }
 
   modifierReponse(index: number) {
-    const nouveauTexte = prompt(
-      'Modifier le message :',
-      this.historique[index].content
-    );
+    const nouveauTexte = prompt('Modifier le message :', this.historique[index].content);
     if (nouveauTexte !== null) {
       this.historique[index].content = nouveauTexte;
     }

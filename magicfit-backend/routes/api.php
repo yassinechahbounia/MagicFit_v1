@@ -9,6 +9,7 @@ use App\Http\Controllers\SuiviController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\CoachVirtuelController;
+use App\Http\Controllers\MirrorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,14 +75,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::middleware('coach-or-admin')->group(function () {
 
         // 🔹 Programmes complets
-        Route::get('/programmes/all', [ProgrammeController::class, 'index']);
+        Route::get('/programmes', [ProgrammeController::class, 'index']);
         Route::get('/programmes/{id}', [ProgrammeController::class, 'show']);
         Route::post('/programmes', [ProgrammeController::class, 'store']);
         Route::put('/programmes/{id}', [ProgrammeController::class, 'update']);
         Route::delete('/programmes/{id}', [ProgrammeController::class, 'destroy']);
 
         // 🔹 Utilisateurs
-        Route::get('/users', [UserController::class, 'index']);
+        Route::middleware('auth:sanctum')->get('/users', [UserController::class, 'index']);
+        // Route::get('/users', [UserController::class, 'index']);
         Route::get('/users/{id}', [UserController::class, 'show']);
         Route::post('/users', [UserController::class, 'store']);
         Route::put('/users/{id}', [UserController::class, 'update']);
@@ -94,6 +96,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Coach Virtuel
     Route::middleware('auth:sanctum')->post('/coach-virtuel', [CoachVirtuelController::class, 'handle']);
+    // Route::post('/coach-ia', [AIController::class, 'askCoach']);
 
     // Route::post('/coach-virtuel', [CoachVirtuelController::class, 'handle']);
+
+    //MagicMirror
+    Route::get('/mirror/cacher-horloge', [MirrorController::class, 'cacherHorloge']);
+    Route::get('/mirror/afficher-horloge', [MirrorController::class, 'afficherHorloge']);
 });

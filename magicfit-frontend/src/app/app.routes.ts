@@ -39,6 +39,7 @@ import { ReservationFacileComponent } from './components/reservation-facile/rese
 import { AuthGuard } from 'auth.guard';
 import { AdminReservationsComponent } from './pages/admin-reservations.component';
 import { CoachVirtuelComponent } from './components/coach-virtuel/coach-virtuel.component';
+import { MirrorComponent } from './mirror/mirror.component';
 
 NgModule({
   imports: [
@@ -125,6 +126,9 @@ export const routes: Routes = [
 
 // Coach IA (DeepSeek)
 { path: 'coach-virtuel', component: CoachVirtuelComponent },
+
+//MagicMirror
+{ path: 'mirror', component: MirrorComponent },
 
 
   // Redirection pour routes inconnues

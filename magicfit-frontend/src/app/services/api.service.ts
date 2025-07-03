@@ -8,6 +8,7 @@ import { utilisateur } from '../utilisateur.model';
 export class ApiService {
   
   private baseUrl = 'http://localhost:8000/api';
+  apiUrl: any;
 
   constructor(private http: HttpClient) {}
 
@@ -93,8 +94,15 @@ export class ApiService {
 // ApiService.ts
 
 getUtilisateurs(): Observable<utilisateur[]> {
-  return this.http.get<utilisateur[]>(`${this.baseUrl}/Utilisateurs`);
+  return this.http.get<utilisateur[]>(`${this.baseUrl}/users`);
 }
+// getUtilisateurs(): Observable<utilisateur[]> {
+//     const token = localStorage.getItem('token'); // 🔐 récupère le token
+//     const headers = new HttpHeaders({
+//       Authorization: `Bearer ${token}`
+//     });
+//     return this.http.get<utilisateur[]>(`${this.baseUrl}/users`, { headers });
+//   }
 
 getUtilisateurById(id: number): Observable<any> {
   return this.http.get(`${this.baseUrl}/Utilisateurs/${id}`, {
