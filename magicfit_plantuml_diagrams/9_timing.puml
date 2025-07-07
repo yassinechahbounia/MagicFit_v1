@@ -1,0 +1,25 @@
+
+@startuml TimingMagicFit
+robust "Utilisateur" as U
+robust "App" as A
+robust "DB" as D
+
+@0
+U is Idle
+A is Ready
+D is Idle
+
+@1
+U -> A : clique "Se connecter"
+A -> D : vérifie identifiants
+@2
+D -> A : réponse OK
+A -> U : accès autorisé
+
+@3
+U -> A : envoie performance
+A -> D : enregistrement
+@4
+D -> A : OK
+A -> U : performance enregistrée
+@enduml

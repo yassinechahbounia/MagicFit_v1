@@ -1,0 +1,21 @@
+
+@startuml SequenceMagicFit
+actor Utilisateur
+participant "Frontend App" as Front
+participant "Backend API" as API
+participant "Base de Données" as DB
+
+Utilisateur -> Front : Se connecter (email, mdp)
+Front -> API : POST /login
+API -> DB : Vérifie email/mdp
+DB --> API : OK / Erreur
+API --> Front : Token JWT / Erreur
+Front --> Utilisateur : Affiche interface ou message
+
+Utilisateur -> Front : Enregistrer une performance
+Front -> API : POST /performances
+API -> DB : Enregistre performance
+DB --> API : OK
+API --> Front : Succès
+Front --> Utilisateur : Confirmation
+@enduml

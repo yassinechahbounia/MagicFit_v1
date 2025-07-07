@@ -1,0 +1,22 @@
+
+@startuml UseCaseMagicFit
+left to right direction
+actor Utilisateur
+actor Coach
+actor Admin
+
+rectangle MagicFit {
+  Utilisateur --> (Se connecter)
+  Utilisateur --> (Voir programmes)
+  Utilisateur --> (S'inscrire à un programme)
+  Utilisateur --> (Enregistrer une performance)
+  Utilisateur --> (Recevoir feedback vidéo)
+
+  Coach --> (Créer programme)
+  Coach --> (Donner feedback vidéo)
+
+  Admin --> (Ajouter utilisateur)
+  Admin --> (Supprimer utilisateur)
+  Admin --> (Mettre à jour miroir)
+}
+@enduml

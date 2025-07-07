@@ -29,23 +29,25 @@ import { CalorieCalculatorComponent } from './components/our-fitness/calorie-cal
 import { BmiCalculatorComponent } from './components/our-fitness/bmi-calculator/bmi-calculator.component';
 import { MacronutrientCalculatorComponent } from './components/our-fitness/macronutrient-calculator/macronutrient-calculator.component';
 import { GoalSettingToolComponent } from './components/our-fitness/goal-setting-tool/goal-setting-tool.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ReservationFacileComponent } from './components/reservation-facile/reservation-facile.component';
 import { AuthGuard } from 'auth.guard';
 import { AdminReservationsComponent } from './pages/admin-reservations.component';
 import { CoachVirtuelComponent } from './components/coach-virtuel/coach-virtuel.component';
 import { MirrorComponent } from './mirror/mirror.component';
+import { AdminPageComponent } from './components/admin-page/admin-page.component';
 
 NgModule({
   imports: [
     BrowserModule,
-    // HttpClientModule, // ✅ NÉCESSAIRE
-    ReactiveFormsModule
+    HttpClientModule, 
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     {
@@ -95,7 +97,7 @@ export const routes: Routes = [
   // Admin routes sécurisées
   {
     path: 'admin',
-    component: AdminToolsComponent,
+    component: AdminPageComponent,
     canActivate: [RoleGuard],
     data: { role: 'admin' }
   },

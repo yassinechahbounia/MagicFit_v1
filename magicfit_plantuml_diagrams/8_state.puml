@@ -1,0 +1,13 @@
+
+@startuml StateMagicFit
+[*] --> EnConnexion
+
+state EnConnexion {
+  [*] --> Formulaire
+  Formulaire --> Authentifie : Entrer identifiants
+  Authentifie --> [*]
+}
+
+EnConnexion --> Dashboard : Connexion réussie
+Dashboard --> [*] : Déconnexion
+@enduml

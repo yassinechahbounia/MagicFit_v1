@@ -1,0 +1,67 @@
+
+@startuml ClassMagicFit
+class Utilisateur {
+  - id : UUID
+  - nom : String
+  - prenom : String
+  - email : String
+  - motDePasse : String
+  - dateInscription : Date
+  + seConnecter(email, motDePasse): boolean
+  + voirProgramme(): Programme
+  + enregistrerPerformance(perf: Performance)
+}
+
+class Coach {
+  - id : UUID
+  - nom : String
+  - specialite : String
+  + creerProgramme(utilisateurId, programme)
+}
+
+class Admin {
+  - id : UUID
+  + ajouterUtilisateur()
+  + supprimerUtilisateur()
+  + mettreAJourMiroir()
+}
+
+class Programme {
+  - id : UUID
+  - titre : String
+  - niveau : String
+  - duree : int
+  - dateCreation : Date
+  - exercices : List<Exercice>
+  + ajouterExercice()
+  + supprimerExercice()
+}
+
+class Exercice {
+  - nom : String
+  - description : String
+  - repetitions : int
+  - series : int
+  - tempsRepos : int
+}
+
+class Performance {
+  - date : Date
+  - exercice : Exercice
+  - poids : float
+  - repetitionsReussies : int
+  + getVolume(): float
+}
+
+class FeedbackVideo {
+  - url : String
+  - date : Date
+  - commentaireCoach : String
+}
+
+Utilisateur "1" --> "*" Performance : produit >
+Utilisateur "1" --> "*" FeedbackVideo : reçoit >
+Utilisateur "1" --> "*" Programme : suit >
+Coach "1" --> "*" Programme : crée >
+Programme "*" --> "*" Exercice : contient >
+@enduml

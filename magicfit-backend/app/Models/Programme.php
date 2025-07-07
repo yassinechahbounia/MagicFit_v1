@@ -16,4 +16,15 @@ class Programme extends Model
         return $this->hasMany(Exercice::class);
         // return $this->belongsToMany(Exercice::class, 'exercice_programme');
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_programme')
+            ->withPivot('coach_id')
+            ->withTimestamps();
+    }
+    public function coach()
+    {
+        return $this->belongsTo(User::class, 'pivot_coach_id');
+    }
 }

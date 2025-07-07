@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:magicfit-frontend": "node dist/magicfit-frontend/server/server.mjs"
+    "serve:ssr:magicfit-frontend": "node dist/magicfit-frontend/server/server.mjs",
+    "start-mirror": "ng build --configuration production --base-href /magicfit/ --output-path ../MagicMirror/modules/MMM-InteractiveMap/public/magicfit && npx http-server ../MagicMirror/modules/MMM-InteractiveMap/public -p 8082"
   },
   "private": true,
   "dependencies": {

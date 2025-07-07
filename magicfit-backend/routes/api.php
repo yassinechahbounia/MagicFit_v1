@@ -10,6 +10,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\CoachVirtuelController;
 use App\Http\Controllers\MirrorController;
+use App\Http\Controllers\UserProgrammeController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -81,7 +83,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/programmes/{id}', [ProgrammeController::class, 'update']);
         Route::delete('/programmes/{id}', [ProgrammeController::class, 'destroy']);
 
-        // 🔹 Utilisateurs
+        //  Utilisateurs
         Route::middleware('auth:sanctum')->get('/users', [UserController::class, 'index']);
         // Route::get('/users', [UserController::class, 'index']);
         Route::get('/users/{id}', [UserController::class, 'show']);
@@ -89,7 +91,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/users/{id}', [UserController::class, 'update']);
         Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
-        // 🔹 Admin : gestion réservations (admin page)
+        // UserProgramme
+
+        Route::post('/assign-programme', [UserProgrammeController::class, 'assign']);
+        Route::get('/user-programmes/{id}', [UserProgrammeController::class, 'getUserProgrammes']);
+        Route::middleware('auth:sanctum')->get('/coach/utilisateurs', [ProgrammeController::class, 'getAssignedUsers']);
+
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('/coach/programmes/{programme}/assign', [ProgrammeController::class, 'assignUser']);
+            Route::delete('/coach/programmes/{programme}/unassign/{user}', [ProgrammeController::class, 'unassignUser']);
+        });
+        Route::get('/users', function () {
+            return \App\Models\User::all();
+        });
+
+        //  Admin : gestion réservations (admin page)
         Route::get('/admin/reservations', [ReservationController::class, 'adminList']);
         Route::put('/admin/reservations/{id}', [ReservationController::class, 'update']);
     });
@@ -98,7 +114,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::middleware('auth:sanctum')->post('/coach-virtuel', [CoachVirtuelController::class, 'handle']);
     // Route::post('/coach-ia', [AIController::class, 'askCoach']);
 
-    // Route::post('/coach-virtuel', [CoachVirtuelController::class, 'handle']);
+    Route::post('/coach-virtuel', [CoachVirtuelController::class, 'handle']);
 
     //MagicMirror
     Route::get('/mirror/cacher-horloge', [MirrorController::class, 'cacherHorloge']);

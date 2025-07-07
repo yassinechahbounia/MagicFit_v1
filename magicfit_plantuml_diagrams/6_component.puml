@@ -1,0 +1,15 @@
+
+@startuml ComponentMagicFit
+package "MagicFit App" {
+  [Frontend Angular]
+  [Backend Laravel]
+  [Database MySQL]
+  [Module AI Coach]
+  [Module Smart Mirror Sync]
+}
+
+[Frontend Angular] --> [Backend Laravel]
+[Backend Laravel] --> [Database MySQL]
+[Backend Laravel] --> [Module AI Coach]
+[Backend Laravel] --> [Module Smart Mirror Sync]
+@enduml
