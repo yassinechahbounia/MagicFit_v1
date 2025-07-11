@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from 'express';
 import { FooterComponent } from "../../shared/footer/footer.component";
+import { RouterModule } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -23,10 +24,11 @@ import { FooterComponent } from "../../shared/footer/footer.component";
     HeroComponent,
     OurProgramsComponent,
     OurFitnessComponent,
-    AdminToolsComponent,
-    ExerciseListComponent,
+    // AdminToolsComponent,
+    // ExerciseListComponent,
     InteractiveMapComponent,
     FooterComponent,
+    RouterModule
 ]
 })
 export class HomeComponent implements OnInit {

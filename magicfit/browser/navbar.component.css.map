@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/components/navbar/navbar.component.scss"],
-  "sourcesContent": [".navbar {\r\n      background-color: rgba(0, 0, 0, 0.8);\r\n      border-bottom: 1px solid #ff4d00;\r\n    }\r\n.navbar-brand img {\r\n      width: 50px;\r\n      height: 50px;\r\n      margin-right: 10px;\r\n    }\r\n\r\n    .navbar .nav-link {\r\n      color: white !important;\r\n      font-weight: 500;\r\n    }"],
-  "mappings": ";AAAA,CAAA;AACM,oBAAA,KAAA,CAAA,EAAA,CAAA,EAAA,CAAA,EAAA;AACA,iBAAA,IAAA,MAAA;;AAEN,CAAA,aAAA;AACM,SAAA;AACA,UAAA;AACA,gBAAA;;AAGF,CAVJ,OAUI,CAAA;AACE,SAAA;AACA,eAAA;;",
-  "names": []
-}

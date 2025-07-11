@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top shadow">  
   <div class="container">
     <!-- Logo -->
     <a class="navbar-brand d-flex align-items-center" routerLink="/">
@@ -19,38 +19,22 @@
       <ul class="navbar-nav align-items-center">
         <!-- Liens communs -->
         <li class="nav-item"><a class="nav-link active" routerLink="">Accueil</a></li>
-        
         <li class="nav-item"><a class="nav-link active" routerLink="/programmes">Programmes</a></li>
-
-        <!-- <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Programmes</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Legs</a></li>
-            <li><a class="dropdown-item" href="#">Upper Body</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Training Home</a></li>
-          </ul>
-        </li> -->
         <li class="nav-item"><a class="nav-link" routerLink="/coaching">Coaching</a></li>
-        
         <li class="nav-item"><a class="nav-link" routerLink="/suivis">Suivis</a></li>
         <li class="nav-item"><a href ="#aboutUs" class="nav-link">About Us</a></li>
-         <!-- <li class="nav-item"><a href="#aboutUs" class="nav-link">About Us</a></li> -->
-        <!-- Coach/Admin -->
         <li class="nav-item" *ngIf="user?.role === 'coach'">
           <a class="nav-link text-warning" routerLink="/coach">Espace Coach</a>
         </li>
         <li class="nav-item" *ngIf="user?.role === 'admin'">
-          <a class="nav-link text-info" routerLink="/admin">Admin</a>
+          <a class="nav-link text-info" routerLink="/admin">Profil</a>
         </li>
       </ul>
 
       <!-- Auth --> 
       <ng-container *ngIf="!isAuthenticated(); else loggedInBlock">
         <button type="button" class="btn btn-outline-light ms-3" (click)="login()">Connexion</button>
-        <!-- <a routerLink="/login" class="btn btn-outline-light ms-3">Connexion</a> -->
          <button type="button" class="btn btn-danger ms-2" (click)="register()">Inscription</button>
-        <!-- <a routerLink="/register" class="btn btn-danger ms-2"></a> -->
       </ng-container>
 
       <ng-template #loggedInBlock>

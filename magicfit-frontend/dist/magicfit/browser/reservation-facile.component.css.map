@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/components/reservation-facile/reservation-facile.component.scss"],
+  "sourcesContent": [".reservation-container {\r\n  max-width: 500px;\r\n  margin: auto;\r\n  padding: 2rem;\r\n  background-color: #1e1e1e;\r\n  border-radius: 12px;\r\n  box-shadow: 0 0 10px rgba(255, 193, 7, 0.4);\r\n\r\n  h2 {\r\n    color: #ffc107;\r\n    text-align: center;\r\n  }\r\n\r\n  input, select {\r\n    width: 100%;\r\n    padding: 0.7rem;\r\n    margin: 10px 0;\r\n    border: none;\r\n    border-radius: 5px;\r\n  }\r\n\r\n  button {\r\n    width: 100%;\r\n    padding: 0.8rem;\r\n    background: #ffc107;\r\n    border: none;\r\n    font-weight: bold;\r\n    border-radius: 5px;\r\n    cursor: pointer;\r\n\r\n    &:hover {\r\n      background: #e0a800;\r\n    }\r\n  }\r\n\r\n  .success {\r\n    color: #28a745;\r\n    text-align: center;\r\n    margin-top: 1rem;\r\n  }\r\n\r\n  .error {\r\n    color: #dc3545;\r\n    text-align: center;\r\n    margin-top: 1rem;\r\n  }\r\n}\r\n"],
+  "mappings": ";AAAA,CAAA;AACE,aAAA;AACA,UAAA;AACA,WAAA;AACA,oBAAA;AACA,iBAAA;AACA,cAAA,EAAA,EAAA,KAAA,KAAA,GAAA,EAAA,GAAA,EAAA,CAAA,EAAA;;AAEA,CARF,sBAQE;AACE,SAAA;AACA,cAAA;;AAGF,CAbF,sBAaE;AAAA,CAbF,sBAaE;AACE,SAAA;AACA,WAAA;AACA,UAAA,KAAA;AACA,UAAA;AACA,iBAAA;;AAGF,CArBF,sBAqBE;AACE,SAAA;AACA,WAAA;AACA,cAAA;AACA,UAAA;AACA,eAAA;AACA,iBAAA;AACA,UAAA;;AAEA,CA9BJ,sBA8BI,MAAA;AACE,cAAA;;AAIJ,CAnCF,sBAmCE,CAAA;AACE,SAAA;AACA,cAAA;AACA,cAAA;;AAGF,CAzCF,sBAyCE,CAAA;AACE,SAAA;AACA,cAAA;AACA,cAAA;;",
+  "names": []
+}

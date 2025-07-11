@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/components/coach-virtuel/coach-virtuel.component.scss"],
+  "sourcesContent": [".chat-box {\r\n  background-color: #1f1f1f;\r\n  border-radius: 10px;\r\n  padding: 10px;\r\n}\r\n"],
+  "mappings": ";AAAA,CAAA;AACE,oBAAA;AACA,iBAAA;AACA,WAAA;;",
+  "names": []
+}

@@ -36,17 +36,17 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users,email',
-            'password' => 'required|string|min:6',
-            'role' => 'required|string',
-        ]);
+    'name' => 'required|string',
+    'email' => 'required|email|unique:users',
+    'role' => 'required|in:admin,coach,client',
+    'password' => 'required|string|min:6',
+]);
 
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = Hash::make($request->password);
         $user->role = $request->role;
+        $user->password = Hash::make($request->password);
         $user->save();
 
         return response()->json(['message' => 'Utilisateur ajouté avec succès'], 201);

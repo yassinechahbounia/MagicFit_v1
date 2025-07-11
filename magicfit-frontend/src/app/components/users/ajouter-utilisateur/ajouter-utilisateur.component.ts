@@ -25,11 +25,22 @@ export class AjouterUtilisateurComponent {
   }
 
   onSubmit(): void {
-    if (this.utilisateurForm.invalid) return;
+  if (this.utilisateurForm.invalid) return;
 
-    this.utilisateurService.ajouterUtilisateur(this.utilisateurForm.value).subscribe(() => {
-      alert('Utilisateur ajouté avec succès');
+  this.utilisateurService.ajouterUtilisateur(this.utilisateurForm.value).subscribe({
+    next: () => {
+      alert('✅ Utilisateur ajouté avec succès');
       this.router.navigate(['/coach']);
-    });
-  }
+    },
+    error: (err) => {
+      console.error('❌ Erreur lors de l\'ajout :', err);
+      if (err.status === 422 && err.error.errors) {
+        const messages = Object.values(err.error.errors).flat().join('\n');
+        alert('Erreur de validation :\n' + messages);
+      } else {
+        alert('Erreur inconnue. Veuillez réessayer.');
+      }
+    }
+  });
+}
 }

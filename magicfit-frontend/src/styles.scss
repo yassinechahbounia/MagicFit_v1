@@ -7,6 +7,8 @@ body {
   background: radial-gradient(circle at top right, #ff4400 0%, #111 60%);
   color: white;
   font-family: 'Segoe UI', sans-serif;
+
+  padding-top: 70px; /* Ajuste à la hauteur de ta navbar */
 }
 html {
   scroll-behavior: smooth;

@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/components/our-fitness/goal-setting-tool/goal-setting-tool.component.scss"],
-  "sourcesContent": ["@media (max-width: 576px) {\r\n        .container {\r\n          padding: 1rem;\r\n        }\r\n        h2 {\r\n          font-size: 1.5rem;\r\n        }\r\n      }"],
-  "mappings": ";AAAA,OAAA,CAAA,SAAA,EAAA;AACQ,GAAA;AACE,aAAA;;AAEF;AACE,eAAA;;;",
-  "names": []
-}

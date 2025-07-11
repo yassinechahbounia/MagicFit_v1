@@ -30,7 +30,7 @@ import { AuthService } from 'src/app/services/auth.service';
   standalone: true,
   selector: 'app-client-tools',
   templateUrl: './client-tools.component.html',
-  styleUrls: ['./client-tools.component.css'],
+  styleUrls: ['./client-tools.component.scss'],
   imports: [CommonModule]
 })
 export class ClientToolsComponent implements OnInit {

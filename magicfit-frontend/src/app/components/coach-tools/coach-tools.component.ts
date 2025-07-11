@@ -31,7 +31,7 @@ import { AuthService } from 'src/app/services/auth.service';
   imports: [CommonModule],
   selector: 'app-coach-tools',
   templateUrl: './coach-tools.component.html',
-  styleUrls: ['./coach-tools.component.css']
+  styleUrls: ['./coach-tools.component.scss']
 })
 export class CoachToolsComponent implements OnInit {
   user: any;
