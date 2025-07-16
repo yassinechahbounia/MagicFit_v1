@@ -1,75 +1,78 @@
 <div class="container mt-4 text-white">
-  <h2 class="text-center mb-4 border-bottom pb-2">📊 Suivi des Performances</h2>
+  <h2 class="text-center mb-4 border-bottom pb-2">📊 Suivi des utilisateurs</h2>
 
-  <!-- Formulaire d'ajout -->
+  <!-- ✅ FORMULAIRE D’AJOUT -->
   <form [formGroup]="suiviForm" (ngSubmit)="ajouterSuivi()" class="bg-dark p-4 rounded shadow mb-4">
     <div class="row g-3">
+      
+      <!-- ✅ LIGNE AJOUTÉE : Liste déroulante des utilisateurs -->
       <div class="col-md-3">
-        <label for="user_id" class="form-label">Sélectionner un utilisateur</label>
-        <select formControlName="user_id" class="form-control" id="user_id" required>
-          <option value="" disabled selected>Choisir...</option>
-          <option *ngFor="let u of utilisateurs" [value]="u.id">{{ u.name }} ({{ u.email }})</option>
+        <label for="user_id" class="form-label">Utilisateur</label>
+        <select formControlName="user_id" class="form-select" required>
+          <option value="">-- Sélectionner un utilisateur --</option>
+          <option *ngFor="let u of utilisateurs" [value]="u.id">
+            {{ u.name }} ({{ u.email }})
+          </option>
         </select>
       </div>
-      <div class="col-md-3">
+
+      <div class="col-md-2">
         <label for="date" class="form-label">Date</label>
-        <input formControlName="date" type="date" class="form-control" id="date" required>
+        <input formControlName="date" type="date" class="form-control" required>
       </div>
+
       <div class="col-md-2">
         <label for="poids" class="form-label">Poids (kg)</label>
-        <input formControlName="poids" type="number" class="form-control" id="poids">
+        <input formControlName="poids" type="number" class="form-control">
       </div>
+
       <div class="col-md-2">
         <label for="repetitions" class="form-label">Répétitions</label>
-        <input formControlName="repetitions" type="number" class="form-control" id="repetitions" required>
+        <input formControlName="repetitions" type="number" class="form-control" required>
       </div>
-      <div class="col-md-2">
+
+      <div class="col-md-3">
         <label for="commentaire" class="form-label">Commentaire</label>
-        <input formControlName="commentaire" type="text" class="form-control" id="commentaire">
+        <input formControlName="commentaire" type="text" class="form-control">
       </div>
-    </div>
-    <div class="text-end mt-3">
-      <button type="submit" class="btn btn-success">Ajouter Suivi</button>
+
+      <div class="col-12 text-end">
+        <button type="submit" class="btn btn-success mt-2">➕ Ajouter</button>
+      </div>
     </div>
   </form>
 
-  <!-- 🔍 Filtre utilisateur -->
-  <div class="mb-3">
-    <label class="form-label">Filtrer par utilisateur</label>
-    <input [(ngModel)]="filtreUtilisateur" class="form-control" placeholder="Entrer ID utilisateur">
+  <!-- ✅ TABLEAU DES SUIVIS -->
+  <div class="bg-dark p-3 rounded mb-4">
+    <h5>📋 Liste des suivis</h5>
+    <table class="table table-bordered table-hover text-white table-dark">
+      <thead>
+        <tr>
+          <th>Utilisateur</th>
+          <th>Date</th>
+          <th>Poids</th>
+          <th>Répétitions</th>
+          <th>Commentaire</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let suivi of filteredSuivis">
+          <td>{{ suivi.user?.name }} ({{ suivi.user?.email }})</td>
+          <td>{{ suivi.date }}</td>
+          <td>{{ suivi.poids || '-' }}</td>
+          <td>{{ suivi.repetitions }}</td>
+          <td>{{ suivi.commentaire || '-' }}</td>
+          <td>
+            <button (click)="supprimerSuivi(suivi.id)" class="btn btn-sm btn-danger">🗑️ Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <!-- 🧾 Tableau des suivis -->
-  <table class="table table-striped text-white">
-    <thead>
-      <tr>
-        <th>Utilisateur</th>
-        <th>Date</th>
-        <th>Poids</th>
-        <th>Répétitions</th>
-        <th>Commentaire</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let suivi of getSuivisFiltres()">
-        <td>{{ suivi.user?.name || suivi.user_id }}</td>
-        <td>{{ suivi.date }}</td>
-        <td>{{ suivi.poids }}</td>
-        <td>{{ suivi.repetitions }}</td>
-        <td>{{ suivi.commentaire }}</td>
-        <td><button class="btn btn-sm btn-danger" (click)="supprimerSuivi(suivi.id)">Supprimer</button></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- 📈 Graphique -->
-  <div class="mt-5">
-    <h4>📈 Répétitions par jour</h4>
-    <canvas baseChart
-        [data]="barChartData"
-        [options]="barChartOptions"
-        [type]="barChartType">
-    </canvas>
+  <!-- ✅ GRAPHIQUE CHART.JS -->
+  <div class="bg-dark p-4 rounded shadow">
+    <canvas id="suiviChart"></canvas>
   </div>
 </div>

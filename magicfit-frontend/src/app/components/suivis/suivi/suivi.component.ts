@@ -1,111 +1,134 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Chart, registerables } from 'chart.js';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { SuiviService } from 'src/app/services/suivi.service';
-import { ChartConfiguration, ChartType, ChartTypeRegistry } from 'chart.js';
-import { NgChartsModule } from 'ng2-charts';
+
+Chart.register(...registerables);
 
 @Component({
-  standalone: true,
   selector: 'app-suivi',
   templateUrl: './suivi.component.html',
-  styleUrls: ['./suivi.component.scss'],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    NgChartsModule
-  ]
+  imports: [ReactiveFormsModule, CommonModule, FormsModule],
 })
 export class SuiviComponent implements OnInit {
+  suiviForm: FormGroup;
   suivis: any[] = [];
-  suiviForm!: FormGroup;
-  filtreUtilisateur: string = '';
-
-  // 📊 Graphique
-  public barChartOptions: ChartConfiguration<'bar'>['options'] = {
-    responsive: true,
-  };
-  public barChartType: 'bar' = 'bar';
-  public barChartLabels: string[] = [];
-  public barChartData: ChartConfiguration<'bar'>['data'] = {
-  labels: [],
-  datasets: [
-    { data: [], label: 'Répétitions' }
-  ]
-};
   utilisateurs: any[] = [];
-  http: any;
-  apiUrl: any;
+  userIdFilter: number | null = null;
+  chart: any;
 
-
-  constructor(private suiviService: SuiviService, private fb: FormBuilder) {}
-
-  ngOnInit(): void {
-  this.suiviForm = this.fb.group({
-  user_id: ['', Validators.required], 
-  date: ['', Validators.required],
-  poids: [''],
-  repetitions: ['', Validators.required],
-  commentaire: ['']
-});
-
-  this.http.get('http://127.0.0.1:8000/api/users').subscribe({
-  next: (res: any) => this.utilisateurs = res,
-  error: () => alert('Erreur chargement utilisateurs')
-});
-  
-    this.chargerSuivis();
-  }
-
-  chargerSuivis(): void {
-    this.suiviService.getSuivis().subscribe({
-      next: (data) => {
-        this.suivis = data;
-
-        const labelMap = new Map<string, number>();
-        data.forEach((s: any) => {
-          const label = s.date;
-          const current = labelMap.get(label) ?? 0;
-          labelMap.set(label, current + parseInt(s.repetitions));
-        });
-
-       this.barChartData.labels = Array.from(labelMap.keys());
-       this.barChartData.datasets[0].data = Array.from(labelMap.values());
-
-      },
-      error: () => alert('Erreur chargement des suivis')
+  constructor(private fb: FormBuilder, private http: HttpClient) {
+    this.suiviForm = this.fb.group({
+      user_id: ['', Validators.required],
+      date: ['', Validators.required],
+      poids: [''],
+      repetitions: ['', Validators.required],
+      commentaire: [''],
     });
   }
 
-  getSuivisFiltres() {
-  if (!this.filtreUtilisateur) return this.suivis;
-  return this.suivis.filter(s => s.user_id == this.filtreUtilisateur);
-}
+  ngOnInit(): void {
+    this.getUtilisateurs();
+    this.getSuivis();
+  }
 
- ajouterSuivi(): void {
-  if (this.suiviForm.invalid) return;
+  getUtilisateurs(): void {
+  const token = localStorage.getItem('token');
+  const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
-  const formData = {
-    ...this.suiviForm.value
-  };
-
-  this.suiviService.ajouterSuivi(formData).subscribe({
-    next: () => {
-      this.suiviForm.reset();
-      this.chargerSuivis();
-    },
-    error: () => alert('Erreur ajout suivi')
+  this.http.get<any[]>('http://127.0.0.1:8000/api/users', { headers }).subscribe(data => {
+    this.utilisateurs = data;
   });
 }
 
 
-  supprimerSuivi(id: number): void {
-    if (!confirm('Confirmer suppression ?')) return;
+  getSuivis(): void {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
-    this.suiviService.supprimerSuivi(id).subscribe({
-      next: () => this.chargerSuivis(),
-      error: () => alert('Erreur suppression suivi')
+    this.http
+      .get<any[]>('http://127.0.0.1:8000/api/suivis', { headers })
+      .subscribe((data) => {
+        this.suivis = data;
+        this.updateChart();
+      });
+  }
+
+  ajouterSuivi(): void {
+    if (this.suiviForm.invalid) return;
+
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    this.http
+      .post('http://127.0.0.1:8000/api/suivis', this.suiviForm.value, {
+        headers,
+      })
+      .subscribe(() => {
+        this.suiviForm.reset();
+        this.getSuivis();
+      });
+  }
+
+  supprimerSuivi(id: number): void {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    this.http
+      .delete(`http://127.0.0.1:8000/api/suivis/${id}`, { headers })
+      .subscribe(() => {
+        this.getSuivis();
+      });
+  }
+
+  get filteredSuivis(): any[] {
+    if (!this.userIdFilter) return this.suivis;
+    return this.suivis.filter((s) => s.user_id == this.userIdFilter);
+  }
+
+  updateChart(): void {
+    if (this.chart) this.chart.destroy();
+
+    const userId = this.userIdFilter;
+    const filtered = userId
+      ? this.suivis.filter((s) => s.user_id == userId)
+      : this.suivis;
+
+    const sorted = [...filtered].sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+
+    const labels = sorted.map((s) => s.date);
+    const data = sorted.map((s) => s.poids);
+
+    this.chart = new Chart('suiviChart', {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Évolution du poids',
+            data,
+            borderWidth: 2,
+            fill: false,
+            tension: 0.1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        animation: {
+          duration: 5000, // rapide
+          easing: 'easeOutQuad', // fluide
+        },
+      },
     });
   }
 }

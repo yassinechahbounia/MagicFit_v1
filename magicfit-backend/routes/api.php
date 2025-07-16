@@ -59,11 +59,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/exercices/{id}', [ExerciceController::class, 'show']);
 
     // ✅ Suivis (index, store, destroy)
-    Route::apiResource('suivis', SuiviController::class)->only([
-        'index',
-        'store',
-        'destroy'
-    ]);
+    Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/suivis', [SuiviController::class, 'index']);
+    Route::post('/suivis', [SuiviController::class, 'store']);
+    Route::delete('/suivis/{id}', [SuiviController::class, 'destroy']);
+});
+
 
     // ✅ Réservations (utilisateurs connectés)
     Route::middleware('auth:sanctum')->group(function () {

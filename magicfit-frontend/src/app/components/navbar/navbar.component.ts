@@ -39,4 +39,5 @@ this.router.navigate(['/login'])}
     localStorage.removeItem('user');
     this.router.navigate(['/']);
   }
+
 }
